@@ -177,6 +177,10 @@ casesBa = getDataByState(casesBrStates, "BA");
 casesSP = getDataByState(casesBrStates, "SP");
 casesRJ = getDataByState(casesBrStates, "RJ");
 casesMG = getDataByState(casesBrStates, "MG");
+casesPE = getDataByState(casesBrStates, "PE");
+casesPB = getDataByState(casesBrStates, "PB");
+casesAM = getDataByState(casesBrStates, "AM");
+casesRS = getDataByState(casesBrStates, "RS");
 //console.log(casesBa)
 
 
@@ -401,7 +405,7 @@ Plotly.newPlot(deathsRateState, data, layout, {
 
 //console.log(getDeaths(casesBa))
 
-var ba = {
+var trace1 = {
     x: getDates(casesBa),
     y: getCasesRate(casesBa),
     type: 'bar',
@@ -409,19 +413,19 @@ var ba = {
 };
 
 
-var sp = {
+var trace2 = {
     x: getDates(casesSP),
     y: getCasesRate(casesSP),
     type: 'bar',
     name: 'SP'
 };
-var rj = {
+var trace3 = {
     x: getDates(casesRJ),
     y: getCasesRate(casesRJ),
     type: 'bar',
     name: 'RJ'
 };
-var mg = {
+var trace4 = {
     x: getDates(casesMG),
     y: getCasesRate(casesMG),
     type: 'bar',
@@ -431,7 +435,7 @@ var mg = {
 //qtdDatas=getDates(casesBa).length;
 
 
-var data = [ba, sp, rj, mg];
+var data = [trace1, trace2, trace3, trace4];
 var layout = {
     title: 'Taxa de crescimento por dia em alguns estados',
     showlegend: true,
@@ -450,14 +454,106 @@ Plotly.newPlot('casesRateStateCompare', data, layout, {
     scrollZoom: true
 });
 
-/*
-Plotly.newPlot(divCasesState, [{
+
+
+var trace1 = {
     x: getDates(casesBa),
-    y: getDataCol(casesBa, 5)
-}], {
-    title: 'Total Deaths: BA',
-    margin: {
-        t: 0
+    y: getMediaMovel(getDeathRates(casesBa),5),
+    type: 'scatter',
+    name: 'BA'
+};
+
+var trace2 = {
+    x: getDates(casesSP),
+    y: getMediaMovel(getDeathRates(casesSP),5),
+    type: 'scatter',
+    name: 'SP'
+};
+var trace3 = {
+    x: getDates(casesRJ),
+    y: getMediaMovel(getDeathRates(casesRJ),5),
+    type: 'scatter',
+    name: 'RJ'
+};
+var trace4 = {
+    x: getDates(casesMG),
+    y: getMediaMovel(getDeathRates(casesMG),5),
+    type: 'scatter',
+    name: 'MG'
+};
+
+casesRO = getDataByState(casesBrStates, "RO");
+casesRR = getDataByState(casesBrStates, "RR");
+casesAP = getDataByState(casesBrStates, "AP");
+casesDF = getDataByState(casesBrStates, "DF");
+
+var trace5 = {
+    x: getDates(casesPE),
+    y: getMediaMovel(getDeathRates(casesPE),5),
+    type: 'scatter',
+    name: 'PE'
+};
+var trace6 = {
+    x: getDates(casesPB),
+    y: getMediaMovel(getDeathRates(casesPB),5),
+    type: 'scatter',
+    name: 'PB'
+};
+var trace7 = {
+    x: getDates(casesAM),
+    y: getMediaMovel(getDeathRates(casesAM),5),
+    type: 'scatter',
+    name: 'AM'
+};
+var trace8 = {
+    x: getDates(casesRS),
+    y: getMediaMovel(getDeathRates(casesRS),5),
+    type: 'scatter',
+    name: 'RS'
+};
+var trace9 = {
+    x: getDates(casesRO),
+    y: getMediaMovel(getDeathRates(casesRO),5),
+    type: 'scatter',
+    name: 'RO'
+};
+var trace10 = {
+    x: getDates(casesRR),
+    y: getMediaMovel(getDeathRates(casesRR),5),
+    type: 'scatter',
+    name: 'RR'
+};
+var trace11 = {
+    x: getDates(casesAP),
+    y: getMediaMovel(getDeathRates(casesAP),5),
+    type: 'scatter',
+    name: 'AP'
+};
+var trace12 = {
+    x: getDates(casesDF),
+    y: getMediaMovel(getDeathRates(casesDF),5),
+    type: 'scatter',
+    name: 'DF'
+};
+
+
+
+var data = [trace1, trace2, trace3, trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12];
+var layout = {
+    title: 'Media Movel de 5 dias da Taxa de crescimento',
+    showlegend: true,
+    xaxis: {
+        title: 'Data',
+        range: [mespassado, todaydate]
+        //range: [qtdDatas-30, qtdDatas]  // to set the xaxis range to 0 to 1
+    },
+    yaxis: {
+        title: 'Taxa (%)',
+        range: [0, 50]
     }
+};
+
+Plotly.newPlot('casesMMRateStateCompare', data, layout, {
+    scrollZoom: true
 });
-*/
+
