@@ -175,6 +175,7 @@ casesMG = getDataByState(casesBrStates, "MG");
 
 
 maxCases=casesBa[casesBa.length-1].totalCases;
+/*
 var trace1 = {
     x: getDates(casesBa),
     y: getCases(casesBa),
@@ -215,6 +216,49 @@ var layout = {
 };
 
 Plotly.newPlot('casesState', data, layout);
+*/
+var trace1 = {
+    x: getDates(casesBa),
+    y: getCases(casesBa),
+    type: 'scatter'
+};
+
+var data = [trace1];
+var layout = {
+    title: 'Casos Totais: BA',
+    showlegend: false,
+    xaxis: {
+        title: 'Data',        
+    },
+    yaxis: {
+        title: 'Casos',
+        range:[0,maxCases]
+    },
+};
+
+Plotly.newPlot('casesTotState', data, layout);
+
+var trace1 = {
+    x: getDates(casesBa),
+    y: getCasesRate(casesBa),
+    type: 'bar'
+};
+
+var data = [trace1];
+var layout = {
+    title: 'Taxa de Crescimento por Dia: BA',
+    showlegend: false,
+    xaxis: {
+        title: 'Data',    
+        range: [mespassado, todaydate]    
+    },
+    yaxis: {
+        title: 'Taxa (%)',
+        range: [0, 50]
+    },
+};
+
+Plotly.newPlot('casesRateState', data, layout);
 
 
 divDeathsState = document.getElementById('deathsState');
