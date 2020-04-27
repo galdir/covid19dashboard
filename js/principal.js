@@ -241,6 +241,47 @@ Plotly.newPlot(divDeathRateState, data, layout, {
 });
 
 
+//casesRateStateCompare
+//divCasesRateStateCompare = document.getElementById('casesRateStateCompare');
+
+//console.log(getDeaths(casesBa))
+
+var ba = {
+    x: getDates(casesBa),
+    y: getCasesRate(casesBa),
+    type: 'line'
+};
+
+casesSP=getDataByState(casesBrStates, "SP");
+casesRJ=getDataByState(casesBrStates, "RJ");
+casesMG=getDataByState(casesBrStates, "MG");
+var sp = {
+    x: getDates(casesSP),
+    y: getCasesRate(casesSP),
+    type: 'line'
+};
+var rj = {
+    x: getDates(casesRJ),
+    y: getCasesRate(casesRJ),
+    type: 'line'
+};
+var mg = {
+    x: getDates(casesMG),
+    y: getCasesRate(casesMG),
+    type: 'line'
+};
+
+
+var data = [ba,sp,rj,mg];
+var layout = {
+    title: 'Taxa de novos Casos',
+    showlegend: true
+};
+
+Plotly.newPlot('casesRateStateCompare', data, layout, {
+    scrollZoom: true
+});
+
 /*
 Plotly.newPlot(divCasesState, [{
     x: getDates(casesBa),
