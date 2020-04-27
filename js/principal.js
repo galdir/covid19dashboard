@@ -136,7 +136,7 @@ function getCasesRate(cases){
     for(i=2;i<casestot.length;i++){
         casesRate[i]=((casestot[i]/casestot[i-1])-1)*100;
     }
-
+    
     return casesRate;
 
 }
@@ -249,7 +249,8 @@ Plotly.newPlot(divDeathRateState, data, layout, {
 var ba = {
     x: getDates(casesBa),
     y: getCasesRate(casesBa),
-    type: 'line'
+    type: 'line',
+    name: 'BA'
 };
 
 casesSP=getDataByState(casesBrStates, "SP");
@@ -258,24 +259,40 @@ casesMG=getDataByState(casesBrStates, "MG");
 var sp = {
     x: getDates(casesSP),
     y: getCasesRate(casesSP),
-    type: 'line'
+    type: 'line',
+    name: 'SP'
 };
 var rj = {
     x: getDates(casesRJ),
     y: getCasesRate(casesRJ),
-    type: 'line'
+    type: 'line',
+    name: 'RJ'
 };
 var mg = {
     x: getDates(casesMG),
     y: getCasesRate(casesMG),
-    type: 'line'
+    type: 'line',
+    name: 'MG'
 };
 
+//qtdDatas=getDates(casesBa).length;
+var today = new Date();
+var todaydate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+var mespassado =today.getFullYear()+'-'+(today.getMonth())+'-'+today.getDate();
 
 var data = [ba,sp,rj,mg];
 var layout = {
     title: 'Taxa de novos Casos',
-    showlegend: true
+    showlegend: true,
+    xaxis: {
+        title: 'Data',
+        range: [mespassado,todaydate ]
+        //range: [qtdDatas-30, qtdDatas]  // to set the xaxis range to 0 to 1
+      },
+      yaxis: {
+        title: 'Taxa (%)',
+        range: [0,50]
+      }
 };
 
 Plotly.newPlot('casesRateStateCompare', data, layout, {
