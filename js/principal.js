@@ -437,7 +437,7 @@ var trace4 = {
 
 var data = [trace1, trace2, trace3, trace4];
 var layout = {
-    title: 'Taxa de crescimento por dia em alguns estados',
+    title: 'Taxa de Crescimento Novos Casos por Dia ',
     showlegend: true,
     xaxis: {
         title: 'Data',
@@ -540,7 +540,7 @@ var trace12 = {
 
 var data = [trace1, trace2, trace3, trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12];
 var layout = {
-    title: 'Media Movel de 5 dias da Taxa de crescimento',
+    title: 'Media Movel de 5 dias da Taxa de crescimento de Novos Casos',
     showlegend: true,
     xaxis: {
         title: 'Data',
