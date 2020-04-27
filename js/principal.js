@@ -265,7 +265,7 @@ divDeathsState = document.getElementById('deathsState');
 
 //console.log(getDeaths(casesBa))
 maxDeaths=casesBa[casesBa.length-1].deaths;
-
+/*
 var trace1 = {
     x: getDates(casesBa),
     y: getDeaths(casesBa),
@@ -302,6 +302,54 @@ var layout = {
 };
 
 Plotly.newPlot(divDeathsState, data, layout, {
+    scrollZoom: true
+});
+*/
+
+var trace1 = {
+    x: getDates(casesBa),
+    y: getDeaths(casesBa),
+    type: 'scatter'
+};
+
+var data = [trace1];
+var layout = {
+    title: 'Mortes Totais: BA',
+    showlegend: false,
+    xaxis: {
+        title: 'Data',    
+    },
+    yaxis: {
+        title: 'Mortes',
+        range:[0,maxDeaths]
+    },
+};
+
+Plotly.newPlot(deathsTotState, data, layout, {
+    scrollZoom: true
+});
+
+var trace1 = {
+    x: getDates(casesBa),
+    y: getDeathRates(casesBa),
+    type: 'bar'
+};
+
+var data = [trace1];
+var layout = {
+    title: 'Taxa de Crescimento de Mortes por Dia: BA',
+    showlegend: false,
+    xaxis: {
+        title: 'Data',    
+        range: [mespassado, todaydate]
+    },
+    yaxis: {
+        title: 'Taxa (%)',
+        range: [0, 50]
+    },
+};
+
+Plotly.newPlot(deathsRateState, data, layout, {
     scrollZoom: true
 });
 
