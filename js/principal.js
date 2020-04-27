@@ -97,6 +97,16 @@ function getDeaths(cases) {
 
 }
 
+function getCases(cases) {
+    var casestot = [];
+    cont = 0;
+    for (l in cases) {
+        casestot[l] = cases[l].totalCases;
+    }
+    return casestot;
+
+}
+
 function getDataCol(cases, c) {
     var dados = [];
     cont = 0;
@@ -111,13 +121,25 @@ function getDeathRates(cases){
     deathRate=[];
     cont = 0;
     for(i=2;i<deaths.length;i++){
-        deathRate[i]=(deaths[i]/deaths[i-1])-1;
+        deathRate[i]=((deaths[i]/deaths[i-1])-1)*100;
     }
 
     return deathRate;
 
 }
 
+
+function getCasesRate(cases){
+    var casestot = getCases(cases);
+    casesRate=[];
+    cont = 0;
+    for(i=2;i<casestot.length;i++){
+        casesRate[i]=((casestot[i]/casestot[i-1])-1)*100;
+    }
+
+    return casesRate;
+
+}
 
 //casesBrStates.forEach(getDataByState);
 //casesBA = casesBrStates;
@@ -138,6 +160,49 @@ Plotly.newPlot(TESTER, [{
 casesBa = getDataByState(casesBrStates, "BA");
 //console.log(casesBa)
 
+
+
+divCasesState = document.getElementById('casesState');
+
+//console.log(getDeaths(casesBa))
+
+var trace1 = {
+    x: getDates(casesBa),
+    y: getCases(casesBa),
+    type: 'scatter'
+};
+
+var data = [trace1];
+var layout = {
+    title: 'Casos: BA',
+    showlegend: false
+};
+
+Plotly.newPlot(divCasesState, data, layout, {
+    scrollZoom: true
+});
+
+
+divCasesRateState = document.getElementById('casesRateState');
+
+//console.log(getDeaths(casesBa))
+
+var trace1 = {
+    x: getDates(casesBa),
+    y: getCasesRate(casesBa),
+    type: 'bar'
+};
+
+var data = [trace1];
+var layout = {
+    title: 'Taxa de novos Casos: BA',
+    showlegend: false
+};
+
+Plotly.newPlot(divCasesRateState, data, layout, {
+    scrollZoom: true
+});
+
 divDeathsState = document.getElementById('deathsState');
 
 //console.log(getDeaths(casesBa))
@@ -147,9 +212,10 @@ var trace1 = {
     y: getDeaths(casesBa),
     type: 'scatter'
 };
+
 var data = [trace1];
 var layout = {
-    title: 'Total Deaths: BA',
+    title: 'Mortes: BA',
     showlegend: false
 };
 
