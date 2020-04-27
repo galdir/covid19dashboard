@@ -43,11 +43,7 @@ function csvJSON(csv) {
     //return JSON.stringify(result); //JSON
 }
 
-//var teste = csvJSON("cases-brazil-states.csv")
-//console.log(teste);
 
-//var casesBrStates = <?php echo json_encode($casesBrStates) ?>;
-//var casesBrStates = json_encode(allText);
 var casesBrStates = csvJSON(allText);
 //console.log(casesBrStates);
 
@@ -125,6 +121,22 @@ function getDeathRates(cases) {
     }
 
     return deathRate;
+
+}
+
+function getMediaMovel(dados,bins){
+    var mm=[];
+    
+    for (i = bins; i < dados.length; i++) {
+        sum=0;
+        for(k=i-bins;k<i;k++){
+            sum+=dados[k];
+        }
+        mm[i]=sum/bins;
+
+    }
+
+    return mm;
 
 }
 
@@ -238,16 +250,30 @@ var layout = {
 
 Plotly.newPlot('casesTotState', data, layout);
 
+mmCasesRate=getMediaMovel(getCasesRate(casesBa),5)
 var trace1 = {
     x: getDates(casesBa),
     y: getCasesRate(casesBa),
-    type: 'bar'
+    type: 'bar',
+    name: 'Crescimento por dia (%)'
 };
 
-var data = [trace1];
+var trace2 = {
+    x: getDates(casesBa),
+    y: mmCasesRate,
+    type: 'scatter',
+    name: 'Media Movel de 5 dias'
+};
+
+var data = [trace1,trace2];
 var layout = {
     title: 'Taxa de Crescimento por Dia: BA',
-    showlegend: false,
+    showlegend: true,
+    legend: {
+        x: 1,
+        xanchor: 'right',
+        y: 1
+      },
     xaxis: {
         title: 'Data',    
         range: [mespassado, todaydate]    
@@ -306,6 +332,7 @@ Plotly.newPlot(divDeathsState, data, layout, {
 });
 */
 
+
 var trace1 = {
     x: getDates(casesBa),
     y: getDeaths(casesBa),
@@ -329,16 +356,30 @@ Plotly.newPlot(deathsTotState, data, layout, {
     scrollZoom: true
 });
 
+
+mmDeathsRate=getMediaMovel(getDeathRates(casesBa),5)
 var trace1 = {
     x: getDates(casesBa),
     y: getDeathRates(casesBa),
-    type: 'bar'
+    type: 'bar',
+    name: "Crescimento por dia (%)"
+};
+var trace2 = {
+    x: getDates(casesBa),
+    y: mmDeathsRate,
+    type: 'scatter',
+    name: 'Media Movel de 5 dias'
 };
 
-var data = [trace1];
+var data = [trace1,trace2];
 var layout = {
     title: 'Taxa de Crescimento de Mortes por Dia: BA',
-    showlegend: false,
+    showlegend: true,
+    legend: {
+        x: 1,
+        xanchor: 'right',
+        y: 1
+      },
     xaxis: {
         title: 'Data',    
         range: [mespassado, todaydate]
@@ -363,7 +404,7 @@ Plotly.newPlot(deathsRateState, data, layout, {
 var ba = {
     x: getDates(casesBa),
     y: getCasesRate(casesBa),
-    type: 'line',
+    type: 'bar',
     name: 'BA'
 };
 
@@ -371,19 +412,19 @@ var ba = {
 var sp = {
     x: getDates(casesSP),
     y: getCasesRate(casesSP),
-    type: 'line',
+    type: 'bar',
     name: 'SP'
 };
 var rj = {
     x: getDates(casesRJ),
     y: getCasesRate(casesRJ),
-    type: 'line',
+    type: 'bar',
     name: 'RJ'
 };
 var mg = {
     x: getDates(casesMG),
     y: getCasesRate(casesMG),
-    type: 'line',
+    type: 'bar',
     name: 'MG'
 };
 
