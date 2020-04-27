@@ -252,7 +252,7 @@ var layout = {
         range: [mespassado, todaydate]
     },
     yaxis2: {
-        title: 'Crescimento ao dia (%)',
+        title: 'Taxa de crescimento por dia (%)',
         range: [0, 50]
     }
 };
@@ -300,7 +300,7 @@ var mg = {
 
 var data = [ba, sp, rj, mg];
 var layout = {
-    title: 'Taxa de novos Casos',
+    title: 'Taxa de crescimento por dia em alguns estados',
     showlegend: true,
     xaxis: {
         title: 'Data',
