@@ -1,4 +1,4 @@
-
+//date,country,state,city,newDeaths,deaths,newCases,totalCases,deathsMS,totalCasesMS
 var alltext = [];
 var file = "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv";
 console.log(file)
@@ -116,12 +116,12 @@ function getDataCol(cases, c) {
     return dados;
 }
 
-function getDeathRates(cases){
+function getDeathRates(cases) {
     var deaths = getDeaths(cases);
-    deathRate=[];
+    deathRate = [];
     cont = 0;
-    for(i=2;i<deaths.length;i++){
-        deathRate[i]=((deaths[i]/deaths[i-1])-1)*100;
+    for (i = 2; i < deaths.length; i++) {
+        deathRate[i] = ((deaths[i] / deaths[i - 1]) - 1) * 100;
     }
 
     return deathRate;
@@ -129,14 +129,14 @@ function getDeathRates(cases){
 }
 
 
-function getCasesRate(cases){
+function getCasesRate(cases) {
     var casestot = getCases(cases);
-    casesRate=[];
+    casesRate = [];
     cont = 0;
-    for(i=2;i<casestot.length;i++){
-        casesRate[i]=((casestot[i]/casestot[i-1])-1)*100;
+    for (i = 2; i < casestot.length; i++) {
+        casesRate[i] = ((casestot[i] / casestot[i - 1]) - 1) * 100;
     }
-    
+
     return casesRate;
 
 }
@@ -157,88 +157,110 @@ Plotly.newPlot(TESTER, [{
 */
 
 
+var today = new Date();
+var todaydate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+var mespassado = today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate();
+
 casesBa = getDataByState(casesBrStates, "BA");
+casesSP = getDataByState(casesBrStates, "SP");
+casesRJ = getDataByState(casesBrStates, "RJ");
+casesMG = getDataByState(casesBrStates, "MG");
 //console.log(casesBa)
 
 
 
-divCasesState = document.getElementById('casesState');
+//divCasesState = document.getElementById('casesState');
 
 //console.log(getDeaths(casesBa))
 
+
+maxCases=casesBa[casesBa.length-1].totalCases;
 var trace1 = {
     x: getDates(casesBa),
     y: getCases(casesBa),
     type: 'scatter'
 };
 
-var data = [trace1];
-var layout = {
-    title: 'Casos: BA',
-    showlegend: false
-};
-
-Plotly.newPlot(divCasesState, data, layout, {
-    scrollZoom: true
-});
-
-
-divCasesRateState = document.getElementById('casesRateState');
-
-//console.log(getDeaths(casesBa))
-
-var trace1 = {
+var trace2 = {
     x: getDates(casesBa),
     y: getCasesRate(casesBa),
-    type: 'bar'
+    xaxis: 'x2',
+    yaxis: 'y2',
+    type: 'bar',
 };
 
-var data = [trace1];
+var data = [trace1,trace2];
 var layout = {
-    title: 'Taxa de novos Casos: BA',
-    showlegend: false
+    title: 'Casos: BA',
+    showlegend: false,
+    grid: {rows: 1, columns: 2, pattern: 'independent'},
+    xaxis: {
+        title: 'Data',
+        //range: [qtdDatas-30, qtdDatas]  // to set the xaxis range to 0 to 1
+        
+    },
+    yaxis: {
+        title: 'Casos',
+        range:[0,maxCases]
+    },
+    xaxis2: {
+        title: 'Data',
+        range: [mespassado, todaydate]
+        //range: [qtdDatas-30, qtdDatas]  // to set the xaxis range to 0 to 1
+    },
+    yaxis2: {
+        title: 'Crescimento ao dia (%)',
+        range: [0, 50]
+    }
 };
 
-Plotly.newPlot(divCasesRateState, data, layout, {
-    scrollZoom: true
-});
+Plotly.newPlot('casesState', data, layout);
+
 
 divDeathsState = document.getElementById('deathsState');
 
 //console.log(getDeaths(casesBa))
+maxDeaths=casesBa[casesBa.length-1].deaths;
 
 var trace1 = {
     x: getDates(casesBa),
     y: getDeaths(casesBa),
     type: 'scatter'
 };
+var trace2 = {
+    x: getDates(casesBa),
+    y: getDeathRates(casesBa),
+    type: 'bar',
+    xaxis: 'x2',
+    yaxis: 'y2',
+};
 
-var data = [trace1];
+var data = [trace1,trace2];
 var layout = {
     title: 'Mortes: BA',
-    showlegend: false
+    showlegend: false,
+    grid: {rows: 1, columns: 2, pattern: 'independent'},
+    xaxis: {
+        title: 'Data',    
+    },
+    yaxis: {
+        title: 'Mortes',
+        range:[0,maxDeaths]
+    },
+    xaxis2: {
+        title: 'Data',
+        range: [mespassado, todaydate]
+    },
+    yaxis2: {
+        title: 'Crescimento ao dia (%)',
+        range: [0, 50]
+    }
 };
 
 Plotly.newPlot(divDeathsState, data, layout, {
     scrollZoom: true
 });
 
-divDeathRateState = document.getElementById('deathRateState');
-
-var trace1 = {
-    x: getDates(casesBa),
-    y: getDeathRates(casesBa),
-    type: 'bar'
-};
-var data = [trace1];
-var layout = {
-    title: 'Taxa de novas mortes: BA',
-    showlegend: false
-};
-
-Plotly.newPlot(divDeathRateState, data, layout, {
-    scrollZoom: true
-});
 
 
 //casesRateStateCompare
@@ -253,9 +275,7 @@ var ba = {
     name: 'BA'
 };
 
-casesSP=getDataByState(casesBrStates, "SP");
-casesRJ=getDataByState(casesBrStates, "RJ");
-casesMG=getDataByState(casesBrStates, "MG");
+
 var sp = {
     x: getDates(casesSP),
     y: getCasesRate(casesSP),
@@ -276,23 +296,21 @@ var mg = {
 };
 
 //qtdDatas=getDates(casesBa).length;
-var today = new Date();
-var todaydate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-var mespassado =today.getFullYear()+'-'+(today.getMonth())+'-'+today.getDate();
 
-var data = [ba,sp,rj,mg];
+
+var data = [ba, sp, rj, mg];
 var layout = {
     title: 'Taxa de novos Casos',
     showlegend: true,
     xaxis: {
         title: 'Data',
-        range: [mespassado,todaydate ]
+        range: [mespassado, todaydate]
         //range: [qtdDatas-30, qtdDatas]  // to set the xaxis range to 0 to 1
-      },
-      yaxis: {
+    },
+    yaxis: {
         title: 'Taxa (%)',
-        range: [0,50]
-      }
+        range: [0, 50]
+    }
 };
 
 Plotly.newPlot('casesRateStateCompare', data, layout, {

@@ -1,0 +1,11 @@
+.emLinha{
+    display:inline-block
+}
+.plots{
+    width:900px;
+    height:450px;
+}
+.center{
+    margin:auto;
+    text-align: center;
+}
